@@ -1,15 +1,27 @@
-# Foobar
+# Толмуд
 
-Foobar is a Python library for dealing with word pluralization.
+Справочник и база знаний
 
-## Installation
+# DEVops
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+### 1. Генерация и скачивание дампа со стороннего сервера Mysql 
+
+##### 1.1 Генерация дампа на серверею Дамп упадет в корневую папку
 
 ```bash
-pip install foobar
+mysqldump -u main -p boardroom > data_dump.sql --no-tablespaces
 ```
+##### 1.2 Скачивание дампа на локальную машину с помощью scp
+```bash
+scp -i "ecommerce-boardroom.pem" ubuntu@ec*-**-***-**-***.compute-1.amazonaws.com:/var/www/html/data_dump.sql /Users/admin/projects
 
+/Users/admin/projects - папка на локальной машине
+/var/www/html/data_dump.sql - путь к файлу на сервере
+-i "ecommerce-boardroom.pem" - ключ
+ubuntu@ec*-**-***-**-***.compute-1.amazonaws.com - логин и хост
+```
+##### 1.3 Скачивание дампа на локальную машину с помощью scp
+C помощью Mysql Workbench или подобных гуи подключится к серверу и залить импорт
 ## Usage
 
 ```python
@@ -24,11 +36,6 @@ foobar.pluralize('goose')
 # returns 'phenomenon'
 foobar.singularize('phenomena')
 ```
-
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
