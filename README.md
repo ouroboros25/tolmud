@@ -55,7 +55,7 @@ RewriteRule ^ index.php [L]
         #ServerName www.example.com
 
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/SmartManagerBackend
+        DocumentRoot /var/www/SmartManagerBackend/public
 
         # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
         # error, crit, alert, emerg.
@@ -81,3 +81,8 @@ RewriteRule ^ index.php [L]
 ```
 sudo apt-get install libapache2-mod-php7.2
 ```
+
+### 3 Настройки SSL (Ubuntu, EC2. Apache)
+
+##### 3.1 CertBot - https://certbot.eff.org/instructions
+##### 3.2 В AWS в Security Groups добавить разрезение на Inbound запросов для HTTPS
