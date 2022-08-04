@@ -86,3 +86,43 @@ sudo apt-get install libapache2-mod-php7.2
 
 ##### 3.1 CertBot - https://certbot.eff.org/instructions
 ##### 3.2 В AWS в Security Groups добавить разрезение на Inbound запросов для HTTPS
+
+
+### 4 Nginx на примере фронтенда и бекенда на одном сервере
+##### 4.1 /etc/nginx/sites-available/smartmanager.backend  
+```
+server {
+    listen 80;
+    server_name smartmanager.space; # fake IP address
+    root /var/www/SmartManagerFrontend/dist; #path to static directory
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Content-Type-Options "nosniff";
+    index index.html index.htm index.php;
+    charset utf-8;
+    location / {
+            try_files $uri $uri/ /index.html;
+    }
+    location /api {
+            alias /var/www/SmartManagerBackend/public;
+            try_files $uri $uri/ @laravelapi;
+            location ~ \.php$ {
+                    include snippets/fastcgi-php.conf;
+                    fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+                    fastcgi_param SCRIPT_FILENAME $request_filename;
+            }
+    }
+location @laravelapi {
+            rewrite /api/(.*)?$ /api/index.php?$is_args$args last;
+    }
+location = /favicon.ico { access_log off; log_not_found off; }
+location = /robots.txt  { access_log off; log_not_found off; }
+error_page 404 /index.php;
+location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
+```
+
+##### 4.2 sudo ln -s /etc/nginx/sites-available/smartmanager.space /etc/nginx/sites-enabled/
+##### 4.3 sudo systemctl restart nginx
