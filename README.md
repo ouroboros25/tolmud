@@ -123,6 +123,8 @@ location ~ /\.(?!well-known).* {
     }
 }
 ```
+Не работать может если:
+1) Не установлен php8.1-fpm.sock или его версия неправильно указана
 
 ##### 4.2 sudo ln -s /etc/nginx/sites-available/smartmanager.space /etc/nginx/sites-enabled/
 ##### 4.3 sudo systemctl restart nginx
